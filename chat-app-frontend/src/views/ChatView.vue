@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <span v-if="loggedIn" class="my-login">Hello {{ loggedIn }}</span>
     <br>
     <textarea v-model="inputMessage" type="text" maxlength="255"/>
     <br>
@@ -13,30 +14,24 @@
 
 <script lang="ts">
 export default {
-  props: {
-    loggedIn: {
-      type: String,
-      default: false
-    }
-  },
   data() {
     return {
       inputMessage: '',
-      messages: [],
-      loggedIn: false
+      messages: []
     };
   },
+  computed: {
+    loggedIn() {
+      return localStorage.getItem('login');
+    }
+  },
   watch: {
-    loggedIn (newVal, oldVal) {
-      if (!newVal) {
-        this.$router.push('/login');
-      }
+    loggedIn(newVal, oldVal) {
+      if (!newVal) this.$router.push('/login');
     }
   },
   mounted() {
-    if (!this.loggedIn) {
-      this.$router.push('/login');
-    }
+    if (!this.loggedIn) this.$router.push('/login');
   },
   methods: {
     async sendMessage() {
@@ -61,5 +56,10 @@ export default {
   height: 1px;
   margin: 20px 0;
   border-top: 1px solid black;
+}
+.my-login {
+  position: absolute;
+  top: 10px;
+  left: 100px;
 }
 </style>

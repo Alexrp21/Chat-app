@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Get, Post, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { RealIP } from 'nestjs-real-ip';
 import { AppService } from './app.service';
 
@@ -15,7 +15,6 @@ export class AppController {
   @Post('/registrate')
   registrateUser(@Req() req: Request): any {
     const result = this.appService.registrateUser(req.body);
-    // res.send(result);
     return { result: result };
   }
 

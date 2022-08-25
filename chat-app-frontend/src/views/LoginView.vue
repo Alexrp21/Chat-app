@@ -34,12 +34,19 @@ export default {
         return;
       }
       let url = this.registrate ? 'http://localhost:3000/registrate' : 'http://localhost:3000/login';
+      let body = {
+        "login": this.login,
+        "password": this.password
+      }
       fetch(url, {
         method: 'POST',
-        body: {
+        headers: {
+          Accept: '*/*'
+        },
+        body = {
           "login": this.login,
           "password": this.password
-        },
+        }
       }).then(async res => {
         const respJSON = await res.json();
         const result = respJSON.result;
@@ -47,11 +54,11 @@ export default {
           alert('This login already exists!');
         } else if (result === 'created') {
           alert('Account created!');
-          this.$emit('loggedIn');
+          localStorage.setItem('login', this.login);
           this.$router.push('/');
         } else if (result === 'success') {
           alert('Login successful!')
-          this.$emit('loggedIn');
+          localStorage.setItem('login', this.login);
           this.$router.push('/');
         } else {
           alert ('Incorrect login or password!');

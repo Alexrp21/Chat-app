@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <nav>
-      <button class="logout-btn" @click="loggedIn = false">Logout</button>
+      <button class="logout-btn" @click="logout">Logout</button>
       <span v-if="myIp" class="my-ip">Your ip: {{ myIp }}</span>
-      <router-link :loggedIn=loggedIn to="/">Chat</router-link> |
-      <router-link @loggedIn="loggedIn = true" to="/login">Login</router-link>
+      <router-link to="/">Chat</router-link> |
+      <router-link to="/login">Login</router-link>
     </nav>
     <router-view/>
   </div>
@@ -13,7 +13,6 @@
 <script>
 export default {
   data: () => ({
-    loggedIn: false,
     myIp: ''
   }),
   mounted() {
@@ -24,6 +23,15 @@ export default {
       })
       .catch((err) => console.log(err))
   },
+  methods: {
+    logout() {
+      localStorage.removeItem('login');
+      this.$router.push('/login');
+    }
+  },
+  beforeDestroy() {
+    localStorage.removeItem('login');
+  }
 }
 </script>
 
